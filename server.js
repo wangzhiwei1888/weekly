@@ -4,17 +4,13 @@ var fs = require('fs');
 var url = require('url');
 var path = require('path');
 
-
 var mime = require('mime');
 
 
 var weeklys = [];
 var server = http.createServer(function(request, response) {
 
-	
-
 	var urlObj = url.parse(request.url, true);
-
 	console.log(urlObj);
 
 	if (urlObj.pathname == '/') {
@@ -49,15 +45,11 @@ var server = http.createServer(function(request, response) {
 	        })
 		}
 
-		
-
 	}
 
 
 
 	// response.end('hello world');
-
-
 	// console.log();
 
 
@@ -66,3 +58,11 @@ var server = http.createServer(function(request, response) {
 
 server.listen(8080, 'localhost');
 console.log('url:localhost:8080');
+
+
+
+
+
+
+
+

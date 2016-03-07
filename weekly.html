@@ -4,101 +4,116 @@
 	<meta charset="UTF-8">
 	<title>周报</title>
 	<link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="format-detection" content="telephone=no" />
+	<style type="text/css">
+		
+	.clear{*zoom:1;}
+	.clear:after{
+	    content: ".";
+	    display: block;
+	    height: 0;
+	    clear: both;
+	    overflow:hidden;
+	    visibility: hidden;
+	}
+	.fl,.fc{
+	    float:left;
+	}
+	.fr{
+	    float:right;
+	}
+	.l,.c,.r{ float: left;}
+	.r{ float: right;}
+
+
+	.content{ width: 80%; margin-left: 10%; margin-right: 10%; }
+	
+
+	@media screen and (max-device-width: 600px) {
+		
+		.content{ width: 100%;  margin: 0;}
+	}
+	</style>
 </head>
 <body>
 	
-	<h1 style="text-align: center; padding: 20px;">周报系统</h1>
-	
-	<hr>
-	<table class="table table-striped">
-      <thead>
-        <tr>
-            <td>实施人</td>
-			<td>项目名称</td>
-			<td>任务</td>
-			<td>进展</td>
-			<td>备注</td>
-        </tr>
-      </thead>
-      <tbody>
-        
-      </tbody>
-    </table>
+	<div class="content">
+		<h1 style="text-align: center; padding: 20px;">周报系统</h1>
+		<h6 style="font-weight: normal; text-align: right; padding-right: 10px;">实施人:jason</h6>
+
+		<div class="clear">
+			<div class="fl"><span class="prev">上一周</span></div>
+			<div class="fr"><span class="next">下一周</span></div>
+		</div>
+		<hr>
+		<table class="table table-striped">
+	      <thead>
+	        <tr>
+				<td>项目名称</td>
+				<td>任务</td>
+				<td>进展</td>
+				<!-- <td>备注</td> -->
+	        </tr>
+	      </thead>
+	      <tbody>
+	        
+	      </tbody>
+	    </table>
+		
+
+		<button class="btn btn-primary" id="add">添加</button>
+
+		<div class="showForm" style="position: absolute; left:50%; top: 60px; width: 300px; background: rgba(255,255,255,0.9); border: 1px solid #ddd; margin-left: -150px; padding: 30px; display: none;">
+			<form action="" id="weeklyform">
+				<div class="weekly">
+					
+					<div class="clear">
+						<!-- <div class="form-group fl" style="margin-right: 20px;">
+						    <label for="userName">实施人</label>
+						    <input type="text" class="form-control" id="userName" placeholder="用户名" name="name">
+						</div> -->
 
 
+						<div class="form-group fl" >
+						    <label for="projectName">项目名称</label>
+						    <input type="text" class="form-control" id="projectName" placeholder="项目名称" name="projectName">
+						</div>
+					</div>
+					
 
-	<hr>
-	<form action="" id="weeklyform">
-		<div class="weekly">
-			
+					<div class="form-group">
+					    <label for="task">任务</label>
+					    <textarea class="form-control" style="width:250px;" rows="2" name="task" placeholder="任务" ></textarea>
+						
+					</div>
+					
+					<div class="clear">
+						<div class="form-group fl" style="margin-right: 20px;">
+						    <label for="progress">进展</label>
+						    <input type="text" class="form-control" id="progress" placeholder="进展" name="progress">
+						</div>
 
-			<div class="form-group">
-			    <label for="userName">实施人</label>
-			    <input type="text" class="form-control" id="userName" placeholder="用户名" name="name">
-			</div>
+						<!-- <div class="form-group fl">
+						    <label for="others">备注</label>
+						    <input type="text" class="form-control" id="others" placeholder="备注" name="others">
+						</div> -->
 
+					</div>
+					<div class="err-msg" style="color: red; padding-bottom: 10px;"></div>
+					<div class="btn-box">
+						<input type="button" class="btn btn-default" value="取消" id="cancel">
+						<input type="button" class="btn btn-primary" value="提交" id="sure">
+						<!-- <button id="btn">提交</button> -->
+					</div>
 
-			<div class="form-group">
-			    <label for="projectName">项目名称</label>
-			    <input type="text" class="form-control" id="projectName" placeholder="项目名称" name="projectName">
-			</div>
-
-			<div class="form-group">
-			    <label for="task">任务</label>
-			    <textarea class="form-control" rows="3" name="task" placeholder="任务" ></textarea>
-				<!-- 
-			    <input type="text" class="form-control" id="task" placeholder="任务" name="task">
-			     -->
-			</div>
-
-			<div class="form-group">
-			    <label for="progress">进展</label>
-			    <input type="text" class="form-control" id="progress" placeholder="进展" name="progress">
-			</div>
-
-			<div class="form-group">
-			    <label for="others">备注</label>
-			    <input type="text" class="form-control" id="others" placeholder="备注" name="others">
-			</div>
-
-			<!-- <div class="list">
-				<span class="lb">实施人</span>
-				<span class="lr"><input type="text" name="name"></span>
-			</div> -->
-
-			<!-- <div class="list">
-				<span class="lb">项目名称</span>
-				<span class="lr"><input type="text" name="projectName"></span>
-			</div>
-
-			<div class="list">
-				<span class="lb">任务</span>
-				<span class="lr">			
-				<textarea name="task" id="" cols="30" rows="10"></textarea>
-
-			</div> -->
-			
-			<!-- <div class="list">
-				<span class="lb">进展</span>
-				<span class="lr"><input type="text" name="progress"></span>
-			</div>
-
-			<div class="list">
-				<span class="lb">备注</span>
-				<span class="lr"><input type="textarea" name="others"></span>
-			</div>
- -->
-			<div class="btn-box">
-
-				<input type="button" value="提交" id="btn">
-				<!-- <button id="btn">提交</button> -->
-			</div>
-
+				</div>
+				
+			</form>
 		</div>
 
-	</form>
-
-
+	
+	</div>
 
 
 
@@ -114,7 +129,6 @@
 			type:'GET',
 			url:"/weekly",
 			// data:data,
-			
 			// responseType:'json',
 			success:function(data){
 
@@ -123,20 +137,33 @@
 				for(var i=0;i<data.length;i++){
 
 					var temp = data[i];
-					str +='<tr><td>'+temp.name+'</td><td>'+temp.projectName+'</td><td>'+temp.task+'</td><td>'+temp.progress+'</td><td>'+temp.others+'</td></tr>';
+					str +='<tr><td>'+temp.projectName+'</td><td>'+temp.task+'</td><td>'+temp.progress+'</td></tr>';
 				}
-				console.log(str);
+				// console.log(data);
+
+				localStorage.setItem('weekly', JSON.stringify(data));
+
 				$("tbody").html(str);
 
 			}
 		})
 
+		$('#add').on('click',function(){
+
+			$('.showForm').show();
+		})
 
 
+		$('#cancel').on('click',function(){
 
-		$('#btn').on('click',function(){
+			$('.showForm').hide();
+
+		})
 
 
+		$('#sure').on('click',function(){
+
+			
 			var data = {
 				name:$("[name='name']").val(),
 				projectName:$("[name='projectName']").val(),
@@ -144,6 +171,20 @@
 				progress:$("[name='progress']").val(),
 				others:$("[name='others']").val()
 			};
+
+
+
+			for(var i in data){
+
+				if(data[i] == "")
+				{
+
+					$('.err-msg').html('文本内容不能为空');
+					return;
+				}
+			}
+
+			$('.showForm').hide();
 
 			console.log(data);
 
@@ -155,23 +196,21 @@
 				// responseType:'json',
 				success:function(data){
 
+					localStorage.setItem('weekly', data);
+
 					var data = JSON.parse(data);
 					console.log(typeof data);
 					var str = ""
 					for(var i=0;i<data.length;i++){
 
 						var temp = data[i];
-						str +='<tr><td>'+temp.name+'</td><td>'+temp.projectName+'</td><td>'+temp.task+'</td><td>'+temp.progress+'</td><td>'+temp.others+'</td></tr>';
+						str +='<tr><td>'+temp.projectName+'</td><td>'+temp.task+'</td><td>'+temp.progress+'</td></tr>';
 					}
 					console.log(str);
 					$("tbody").html(str);
 
 				}
 			})
-
-
-			
-
 
 			// reg()
 
