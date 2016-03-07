@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>周报</title>
+	<link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+	
+	<h1 style="text-align: center; padding: 20px;">周报系统</h1>
+	
+	<hr>
+	<table class="table table-striped">
+      <thead>
+        <tr>
+            <td>实施人</td>
+			<td>项目名称</td>
+			<td>任务</td>
+			<td>进展</td>
+			<td>备注</td>
+        </tr>
+      </thead>
+      <tbody>
+        
+      </tbody>
+    </table>
+
+
+
+	<hr>
+	<form action="" id="weeklyform">
+		<div class="weekly">
+			
+
+			<div class="form-group">
+			    <label for="userName">实施人</label>
+			    <input type="text" class="form-control" id="userName" placeholder="用户名" name="name">
+			</div>
+
+
+			<div class="form-group">
+			    <label for="projectName">项目名称</label>
+			    <input type="text" class="form-control" id="projectName" placeholder="项目名称" name="projectName">
+			</div>
+
+			<div class="form-group">
+			    <label for="task">任务</label>
+			    <textarea class="form-control" rows="3" name="task" placeholder="任务" ></textarea>
+				<!-- 
+			    <input type="text" class="form-control" id="task" placeholder="任务" name="task">
+			     -->
+			</div>
+
+			<div class="form-group">
+			    <label for="progress">进展</label>
+			    <input type="text" class="form-control" id="progress" placeholder="进展" name="progress">
+			</div>
+
+			<div class="form-group">
+			    <label for="others">备注</label>
+			    <input type="text" class="form-control" id="others" placeholder="备注" name="others">
+			</div>
+
+			<!-- <div class="list">
+				<span class="lb">实施人</span>
+				<span class="lr"><input type="text" name="name"></span>
+			</div> -->
+
+			<!-- <div class="list">
+				<span class="lb">项目名称</span>
+				<span class="lr"><input type="text" name="projectName"></span>
+			</div>
+
+			<div class="list">
+				<span class="lb">任务</span>
+				<span class="lr">			
+				<textarea name="task" id="" cols="30" rows="10"></textarea>
+
+			</div> -->
+			
+			<!-- <div class="list">
+				<span class="lb">进展</span>
+				<span class="lr"><input type="text" name="progress"></span>
+			</div>
+
+			<div class="list">
+				<span class="lb">备注</span>
+				<span class="lr"><input type="textarea" name="others"></span>
+			</div>
+ -->
+			<div class="btn-box">
+
+				<input type="button" value="提交" id="btn">
+				<!-- <button id="btn">提交</button> -->
+			</div>
+
+		</div>
+
+	</form>
+
+
+
+
+
+	<script type="text/javascript" src="https://www.yirendai.com/ccms/js/jquery-1.8.2.min.js"></script>
+
+	
+	<script type="text/javascript">
+		
+	$(function(){
+
+
+		$.ajax({
+			type:'GET',
+			url:"/weekly",
+			// data:data,
+			
+			// responseType:'json',
+			success:function(data){
+
+				var data = JSON.parse(data);
+				var str = ""
+				for(var i=0;i<data.length;i++){
+
+					var temp = data[i];
+					str +='<tr><td>'+temp.name+'</td><td>'+temp.projectName+'</td><td>'+temp.task+'</td><td>'+temp.progress+'</td><td>'+temp.others+'</td></tr>';
+				}
+				console.log(str);
+				$("tbody").html(str);
+
+			}
+		})
+
+
+
+
+		$('#btn').on('click',function(){
+
+
+			var data = {
+				name:$("[name='name']").val(),
+				projectName:$("[name='projectName']").val(),
+				task:$("[name='task']").val(),
+				progress:$("[name='progress']").val(),
+				others:$("[name='others']").val()
+			};
+
+			console.log(data);
+
+			$.ajax({
+				type:'POST',
+				url:"/weekly",
+				// data:data,
+				data:JSON.stringify(data),
+				// responseType:'json',
+				success:function(data){
+
+					var data = JSON.parse(data);
+					console.log(typeof data);
+					var str = ""
+					for(var i=0;i<data.length;i++){
+
+						var temp = data[i];
+						str +='<tr><td>'+temp.name+'</td><td>'+temp.projectName+'</td><td>'+temp.task+'</td><td>'+temp.progress+'</td><td>'+temp.others+'</td></tr>';
+					}
+					console.log(str);
+					$("tbody").html(str);
+
+				}
+			})
+
+
+			
+
+
+			// reg()
+
+		})
+
+
+		// function reg(){
+	 //        // var username = document.querySelector("input[name='username']").value;
+	 //        // var age  =document.querySelector("input[name='age']").value;
+	 //        var user = {
+	 //            username:'wzw',
+	 //            age:12
+	 //        }
+	 //        //1.创建ajax对象 0
+	 //        var xhr = new XMLHttpRequest();
+
+	 //        //指定参数 1
+	 //        xhr.open('POST','/weekly',true);
+	 //        //设置响应的类型，会自动化xhr.response转成对应的类型
+	 //        xhr.responseType = 'json';
+	 //        //注册当状态变化之后的回调函数
+	 //        xhr.onreadystatechange = function(){
+	 //            //当状态为4的时候，也就是响应接收完毕的时候
+	 //            if(xhr.readyState == 4){
+	 //                if(xhr.status == 200){
+	 //                    var user = xhr.response;
+	 //                    console.log(user);
+	                    // var tbody = document.querySelector("table tbody");
+	                    // var tr = document.createElement('tr');
+	                    // var td1 = document.createElement('td');
+	                    // td1.innerHTML =user.username;
+	                    // var td2 = document.createElement('td');
+	                    // td2.innerHTML =user.age;
+	                    // tr.appendChild(td1);
+	                    // tr.appendChild(td2);
+	                    // tbody.appendChild(tr);
+	 //                }else{
+
+	 //                }
+
+	 //            }
+	 //        }
+	 //        //指定请求体发送数据
+	 //        xhr.send(JSON.stringify(user));
+	 //    }
+
+
+
+
+
+
+
+	})
+
+
+	</script>
+
+</body>
+</html>
