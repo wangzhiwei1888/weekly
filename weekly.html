@@ -26,7 +26,7 @@
 	.l,.c,.r{ float: left;}
 	.r{ float: right;}
 
-
+	.clearbox span{ padding: 0 5px; color: #337ab7; }
 	.content{ width: 80%; margin-left: 10%; margin-right: 10%; }
 	
 
@@ -42,10 +42,10 @@
 		<h1 style="text-align: center; padding: 20px;">周报系统</h1>
 		<h6 style="font-weight: normal; text-align: right; padding-right: 10px;">实施人:jason</h6>
 
-		<div class="clear">
+		<!-- <div class="clear clearbox">
 			<div class="fl"><span class="prev">上一周</span></div>
 			<div class="fr"><span class="next">下一周</span></div>
-		</div>
+		</div> -->
 		<hr>
 		<table class="table table-striped">
 	      <thead>
@@ -62,7 +62,7 @@
 	    </table>
 		
 
-		<button class="btn btn-primary" id="add">添加</button>
+		<button class="btn btn-primary" id="add" style="margin-left: 10px;">添加</button>
 
 		<div class="showForm" style="position: absolute; left:50%; top: 60px; width: 300px; background: rgba(255,255,255,0.9); border: 1px solid #ddd; margin-left: -150px; padding: 30px; display: none;">
 			<form action="" id="weeklyform">
