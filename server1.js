@@ -20,6 +20,7 @@ var db = mongoose.createConnection('mongodb://localhost/mydb');
 // console.log(db);
 var Schema = mongoose.Schema;
 var weeklyItemSchema = new Schema({
+	username:String,
 	projectName:String,
 	task:String,
 	progress:String
@@ -74,8 +75,9 @@ var server = http.createServer(function(request, response) {
 
 		if(request.method == 'GET')
 		{
-
-			WeeklyItemModel.find(function (err, docs) { 
+			var urldata = url.parse(request.url,true);
+			// console.log(urldata);
+			WeeklyItemModel.find(urldata.query,function (err, docs) { 
 
 				// console.log(docs);
 				response.end(JSON.stringify(docs));
@@ -131,7 +133,7 @@ var server = http.createServer(function(request, response) {
 				var userEntity = new UserModel(tempobj);
 				userEntity.save();
 				
-	            response.end('{"result":"1"}');
+	            response.end('{"result":"1","username":"'+tempobj.username+'"}');
 
 	        })
 
@@ -156,11 +158,20 @@ var server = http.createServer(function(request, response) {
 				var tempobj = JSON.parse(str);
 				console.log(tempobj);
 
-				UserModel.find(tempobj,function (err, docs) { 
+				UserModel.findOne(tempobj,function (err, docs) { 
 
-					// console.log(docs);
-					// response.end(JSON.stringify(docs));
-					response.end('{"result":"1"}');
+					
+					if(docs != null)
+					{
+						// console.log(docs);
+						// response.end(JSON.stringify(docs));
+						response.end('{"result":"1","username":"'+tempobj.username+'"}');	
+					}
+					else{
+
+						response.end('{"result":"0","username":"","errMsg":"登录失败"}');
+					}
+					
 
 				});
 				// var userEntity = new UserModel(tempobj);

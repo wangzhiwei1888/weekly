@@ -42,14 +42,19 @@
 		<h1 style="text-align: center; padding: 20px;">周报系统</h1>
 
 		<!-- <h6 style="font-weight: normal; text-align: right; padding-right: 10px;">实施人:jason</h6> -->
-		<h6 style="font-weight: normal; text-align: right; padding-right: 10px;"><a href="javascript:;" class="loginBtn">登录</a>/<a href="javascript:;" class="regBtn">注册</a></h6>
+		<h6 style="font-weight: normal; text-align: right; padding-right: 10px;" class="nameBox"><a href="javascript:;" class="loginBtn">登录</a>/<a href="javascript:;" class="regBtn">注册</a></h6>
 
 		<!-- <div class="clear clearbox">
 			<div class="fl"><span class="prev">上一周</span></div>
 			<div class="fr"><span class="next">下一周</span></div>
 		</div> -->
 		<hr>
-		<table class="table table-striped">
+
+		<div class="welcome" style="padding: 0 10px;">
+			欢迎来到周报系统...
+		</div>
+
+		<table class="table table-striped" style="display: none;">
 	      <thead>
 	        <tr>
 				<td>项目名称</td>
@@ -64,7 +69,7 @@
 	    </table>
 		
 
-		<button class="btn btn-primary" id="add" style="margin-left: 10px;">添加</button>
+		
 
 		<div class="showForm" style="position: absolute; left:50%; top: 60px; width: 300px; background: rgba(255,255,255,0.9); border: 1px solid #ddd; margin-left: -150px; padding: 30px; display: none;">
 			<form action="" id="weeklyform">
@@ -79,7 +84,7 @@
 
 						<div class="form-group fl" >
 						    <label for="projectName">项目名称</label>
-						    <input type="text" class="form-control" id="projectName" placeholder="项目名称" name="projectName">
+						    <input type="text" class="form-control" id="projectName" value="微信项目" placeholder="项目名称" name="projectName">
 						</div>
 					</div>
 					
@@ -93,7 +98,7 @@
 					<div class="clear">
 						<div class="form-group fl" style="margin-right: 20px;">
 						    <label for="progress">进展</label>
-						    <input type="text" class="form-control" id="progress" placeholder="进展" name="progress">
+						    <input type="text" class="form-control" id="progress" value="进行中" placeholder="进展" name="progress">
 						</div>
 
 						<!-- <div class="form-group fl">
@@ -194,30 +199,55 @@
 	$(function(){
 
 
-		$.ajax({
-			type:'GET',
-			url:"/weekly",
-			// data:data,
-			// responseType:'json',
-			success:function(data){
+		
 
-				var data = JSON.parse(data);
-				var str = ""
-				for(var i=0;i<data.length;i++){
+		var updateStatus = function()
+		{
 
-					var temp = data[i];
-					str +='<tr><td>'+temp.projectName+'</td><td>'+temp.task+'</td><td>'+temp.progress+'</td></tr>';
-				}
-				// console.log(data);
+			var loginStatus = JSON.parse(localStorage.getItem('login'));
+			console.log(loginStatus);
 
-				localStorage.setItem('weekly', JSON.stringify(data));
+			if(loginStatus != null && Object.keys(loginStatus).length >= 2){
 
-				$("tbody").html(str);
+				var data = {'username':loginStatus.username};
 
+				$.ajax({
+					type:'GET',
+					url:"/weekly",
+					data:data,
+					// responseType:'json',
+					success:function(data){
+
+						$('.welcome').hide();
+						var data = JSON.parse(data);
+						var str = ""
+						for(var i=0;i<data.length;i++){
+
+							var temp = data[i];
+							str +='<tr><td>'+temp.projectName+'</td><td>'+temp.task+'</td><td>'+temp.progress+'</td></tr>';
+						}
+						// console.log(data);
+
+						localStorage.setItem('weekly', JSON.stringify(data));
+						$('.table-striped').show();
+						$("tbody").html(str);
+
+					}
+				})
+				$('.nameBox').html("实施人:"+loginStatus.username);
+
+				// alert(1);
+				var addStr = '<button class="btn btn-primary" id="add" style="margin-left: 10px; ">添加</button>';
+				$('.content').append(addStr);
 			}
-		})
+		}
+		updateStatus()
 
-		$('#add').on('click',function(){
+
+
+		
+
+		$('body').on('click','#add',function(){
 
 			$('.showForm').show();
 		})
@@ -236,14 +266,14 @@
 
 			
 			var data = {
-				name:$("[name='name']").val(),
+				username:JSON.parse(localStorage.getItem('login')).username,
 				projectName:$("[name='projectName']").val(),
 				task:$("[name='task']").val(),
 				progress:$("[name='progress']").val(),
 				others:$("[name='others']").val()
 			};
 
-
+			console.log(data);
 
 			for(var i in data){
 
@@ -327,6 +357,8 @@
 					localStorage.setItem('login', resp);
 					$('.loginBtn').parent().html("实施人:"+data.username);
 
+					updateStatus()
+
 				}
 			})
 
@@ -350,7 +382,7 @@
 				}
 			}
 
-			$('.loginform').hide();
+			
 
 			console.log(data);
 
@@ -362,9 +394,25 @@
 				// responseType:'json',
 				success:function(resp){
 
-					localStorage.setItem('login', resp);
-					$('.loginBtn').parent().html("实施人:"+data.username);
+					var respData = JSON.parse(resp);
 
+					// alert(respData.result == 1);
+					if(respData.result == 1){
+						$('.loginform').hide();
+						localStorage.setItem('login', resp);
+						// $('.loginBtn').parent().html("实施人:"+data.username);
+
+						updateStatus();
+					}
+					else{
+
+						$('.loginform').find('.err-msg').html(respData.errMsg);
+						// localStorage.setItem('login', resp);
+						// $('.loginBtn').parent().html("实施人:"+data.username);
+						// updateStatus()
+
+					}
+					
 				}
 			})
 
