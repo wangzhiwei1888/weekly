@@ -25,7 +25,13 @@ var weeklyItemSchema = new Schema({
 	progress:String
 });
 
+var userSchema = new Schema({
+	username:String,
+	password:String
+});
+
 var WeeklyItemModel = db.model('weekly',weeklyItemSchema);
+var UserModel = db.model('user',userSchema);
 
 // var tempobj = {name:'wzw',password:'123456'};
 
@@ -90,8 +96,6 @@ var server = http.createServer(function(request, response) {
 	        request.on('end',function(){
 	            // console.log(str);
 	            //转成对象追加到用户列表里
-	            
-
 
 				var tempobj = JSON.parse(str);
 				console.log(tempobj);
@@ -106,6 +110,68 @@ var server = http.createServer(function(request, response) {
 
 	        })
 		}
+
+	}else if (urlObj.pathname == '/reg') {
+
+		if (request.method == 'POST')
+		{
+
+			//每当服务器收到客户端发过来的一段数据的时候就会触发data事件
+			var str = '';
+			request.on('data', function(data) {
+
+				str += data.toString();
+			});
+
+			//当所有的数据全部接收完毕的时候会会触发end事件，这时请求体的数据就接收完整了
+	        request.on('end',function(){
+	            
+				var tempobj = JSON.parse(str);
+				console.log(tempobj);
+				var userEntity = new UserModel(tempobj);
+				userEntity.save();
+				
+	            response.end('{"result":"1"}');
+
+	        })
+
+		}
+
+
+	}else if (urlObj.pathname == '/login') {
+
+		if (request.method == 'POST')
+		{
+
+			//每当服务器收到客户端发过来的一段数据的时候就会触发data事件
+			var str = '';
+			request.on('data', function(data) {
+
+				str += data.toString();
+			});
+
+			//当所有的数据全部接收完毕的时候会会触发end事件，这时请求体的数据就接收完整了
+	        request.on('end',function(){
+	            
+				var tempobj = JSON.parse(str);
+				console.log(tempobj);
+
+				UserModel.find(tempobj,function (err, docs) { 
+
+					// console.log(docs);
+					// response.end(JSON.stringify(docs));
+					response.end('{"result":"1"}');
+
+				});
+				// var userEntity = new UserModel(tempobj);
+				// userEntity.save();
+				
+	            
+
+	        })
+
+		}
+
 
 	}
 
