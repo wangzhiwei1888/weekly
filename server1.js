@@ -118,7 +118,7 @@ var server = http.createServer(function(request, response) {
 })
 
 
-server.listen(8080, '10.106.139.18');
+server.listen(8080, 'localhost');
 console.log('url:localhost:8080');
 
 
