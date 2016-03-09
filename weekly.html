@@ -198,16 +198,10 @@
 
 					localStorage.setItem('weekly', data);
 
-					var data = JSON.parse(data);
-					console.log(typeof data);
-					var str = ""
-					for(var i=0;i<data.length;i++){
-
-						var temp = data[i];
-						str +='<tr><td>'+temp.projectName+'</td><td>'+temp.task+'</td><td>'+temp.progress+'</td></tr>';
-					}
-					console.log(str);
-					$("tbody").html(str);
+					var temp = JSON.parse(data);
+					// console.log(typeof data);
+					var str = '<tr><td>'+temp.projectName+'</td><td>'+temp.task+'</td><td>'+temp.progress+'</td></tr>';
+					$("tbody").append(str);
 
 				}
 			})
