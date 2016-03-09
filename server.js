@@ -7,11 +7,54 @@ var path = require('path');
 var mime = require('mime');
 
 
+var mongoose = require('mongoose');
+var db = mongoose.createConnection('mongodb://localhost/mydb');
+
+
+// db.on('error',console.error.bind(console,'连接错误:'));
+// db.once('open',function(){
+//   console.log('open db');
+// });
+
+
+// console.log(db);
+var Schema = mongoose.Schema;
+var userSchema = new Schema({
+	name:String,
+	password:String
+});
+
+var UserModel = db.model('users',userSchema);
+
+var tempobj = {name:'wzw',password:'123456'};
+
+var userEntity = new UserModel(tempobj);
+
+// userEntity.save();
+
+
+// UserModel.find(tempobj, function (err, docs) { 
+
+// 	console.log(docs);
+
+// });
+
+
+UserModel.findOne(tempobj, function (err, docs) { 
+
+	console.log(docs);
+
+});
+
+
+
+
 var weeklys = [];
 var server = http.createServer(function(request, response) {
 
+	// console.log(db);
 	var urlObj = url.parse(request.url, true);
-	console.log(urlObj);
+	// console.log(urlObj);
 
 	if (urlObj.pathname == '/') {
 		response.writeHead(200, {
@@ -37,7 +80,7 @@ var server = http.createServer(function(request, response) {
 
 			//当所有的数据全部接收完毕的时候会会触发end事件，这时请求体的数据就接收完整了
 	        request.on('end',function(){
-	            console.log(str);
+	            // console.log(str);
 	            //转成对象追加到用户列表里
 	            weeklys.push(JSON.parse(str));
 	            //最后返回用户列表
